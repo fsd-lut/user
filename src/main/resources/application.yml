@@ -1,0 +1,94 @@
+spring:
+  profiles:
+    active: local
+---
+spring:
+  profiles: local
+  application:
+    name: user-service
+  h2:
+   console:
+    enabled: true
+    path: /h2
+    
+  datasource:
+    url: jdbc:h2:mem:luttest     #h2 configuration
+    username: sa
+    driver-class-name: org.h2.Driver
+server:
+  port: 9991  
+# 服务管理配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"        #暴漏的接口，"*"表示所有web监控接口
+#        exclude:            #不暴漏的接口
+      base-path: /actuator  #监控根路径
+    enabled-by-default: true
+  endpoint:
+    health:
+      show-details: ALWAYS
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone: http://localhost:10001/eureka
+    healthcheck.enabled: true
+  instance:
+    prefer-ip-address: true
+#    securePortEnabled: true
+    instance-id: ${spring.application.name}:${server.port}
+  
+ribbon:
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+
+check-user-scopes: false
+swagger.enabled: true
+
+---
+spring:
+  profiles: docker
+  application:
+    name: user-service
+  h2:
+   console:
+    enabled: true
+    path: /h2
+    
+  datasource:
+    url: jdbc:h2:mem:luttest     #h2 configuration
+    username: sa
+    driver-class-name: org.h2.Driver
+server:
+  port: 9991    
+# 服务管理配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"        #暴漏的接口，"*"表示所有web监控接口
+#        exclude:            #不暴漏的接口
+      base-path: /actuator  #监控根路径
+    enabled-by-default: true
+  endpoint:
+    health:
+      show-details: ALWAYS
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone: http://118.31.126.255:8100/eureka
+    healthcheck.enabled: true
+  instance:
+    prefer-ip-address: true
+#    securePortEnabled: true
+    instance-id: ${spring.application.name}:${server.port}
+  
+ribbon:
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+
+check-user-scopes: false
+swagger.enabled: true
